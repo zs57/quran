@@ -13,11 +13,12 @@ $action = $_GET['action'] ?? '';
 if (isset($_SERVER['VERCEL'])) {
     $cacheDir = '/tmp/cache';
 } else {
-    $cacheDir = __DIR__ . '/../cache'; // Go up one level to reach root cache if local
+    // Local development: try to find a writable cache dir
+    $cacheDir = __DIR__ . '/../cache';
 }
 
 if (!is_dir($cacheDir)) {
-    mkdir($cacheDir, 0777, true);
+    @mkdir($cacheDir, 0777, true);
 }
 
 function fetchWithCache($url, $cacheFile, $ttl = 86400) {
