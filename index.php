@@ -30,7 +30,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/style.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
@@ -463,6 +463,6 @@ fetch('api/index.php?action=surahs')
     </div>
   </footer>
 
-  <script src="script.js?v=<?php echo time(); ?>"></script>
+  <script src="/script.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
