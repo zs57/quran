@@ -13,7 +13,7 @@ $action = $_GET['action'] ?? '';
 if (isset($_SERVER['VERCEL'])) {
     $cacheDir = '/tmp/cache';
 } else {
-    $cacheDir = __DIR__ . '/cache';
+    $cacheDir = __DIR__ . '/../cache'; // Go up one level to reach root cache if local
 }
 
 if (!is_dir($cacheDir)) {

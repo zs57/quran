@@ -372,35 +372,35 @@
               <div class="badge high" style="margin-bottom: 0.5rem; display: inline-block;">GET</div>
               <h3><i class="ri-braces-line" style="color:var(--accent-red);"></i> قائمة السور</h3>
               <p style="color:var(--ink-light); margin-bottom:1rem; font-size:0.9rem;">استخدم هذا المسار لجلب جميع معلومات السور (الاسم، النوع، الآيات).</p>
-              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api.php?action=surahs</code>
+              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api/index.php?action=surahs</code>
            </div>
            
            <div class="panel">
               <div class="badge medium" style="margin-bottom: 0.5rem; display: inline-block;">GET</div>
               <h3><i class="ri-braces-line" style="color:var(--accent-green);"></i> بيانات القراء</h3>
               <p style="color:var(--ink-light); margin-bottom:1rem; font-size:0.9rem;">يعيد لك قائمة شاملة بأسماء القراء، الروايات المتاحة، وروابط السيرفرات الصوتية.</p>
-              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api.php?action=reciters</code>
+              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api/index.php?action=reciters</code>
            </div>
 
            <div class="panel">
               <div class="badge low" style="margin-bottom: 0.5rem; display: inline-block;">GET</div>
               <h3><i class="ri-braces-line" style="color:var(--highlight-orange);"></i> نص السورة وتفسيرها</h3>
               <p style="color:var(--ink-light); margin-bottom:1rem; font-size:0.9rem;">لجلب نص سورة معينة أو تفسيرها. غيّر <strong>id</strong> لرقم السورة و <strong>type</strong> لنوع التفسير.</p>
-              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api.php?action=tafsir&id=1&type=ar.muyassar</code>
+              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api/index.php?action=tafsir&id=1&type=ar.muyassar</code>
            </div>
 
            <div class="panel">
               <div class="badge high" style="margin-bottom: 0.5rem; display: inline-block;">BATCH</div>
               <h3><i class="ri-download-cloud-fill" style="color:var(--ink);"></i> سكربت التحميل الجماعي</h3>
               <p style="color:var(--ink-light); margin-bottom:1rem; font-size:0.9rem;">ميزة حصرية! هذا الرابط يولد ملف <strong>.bat</strong> يقوم بتحميل جميع سور المصحف للقارئ بضغطة واحدة.</p>
-              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api.php?action=download_full_quran_script&server=[URL]&name=[NAME]</code>
+              <code style="display:block; background:#111; color:#0f0; padding:1rem; border-radius:8px; direction:ltr; text-align:left; font-family:monospace; overflow-x:auto;">/api/index.php?action=download_full_quran_script&server=[URL]&name=[NAME]</code>
            </div>
         </div>
 
         <div class="panel" style="margin-top: 2rem;">
            <h3><i class="ri-code-s-slash-line"></i> مثال لاستخدام JavaScript (للمبتدئين)</h3>
            <pre style="background:#222; color:#fff; padding:1rem; border-radius:8px; margin-top:1rem; direction:ltr; text-align:left; font-size:0.9rem; overflow-x:auto;">
-fetch('api.php?action=surahs')
+fetch('api/index.php?action=surahs')
   .then(response => response.json())
   .then(data => {
     console.log("قائمة السور:", data.data);
