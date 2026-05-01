@@ -6,24 +6,12 @@
   },
   "routes": [
     {
-      "src": "/api",
-      "dest": "/api/index.php"
+      "src": "/api(.*)",
+      "dest": "/api/index.php$1"
     },
     {
-      "src": "/style.css",
-      "dest": "/style.css"
-    },
-    {
-      "src": "/script.js",
-      "dest": "/script.js"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/manifest.json"
-    },
-    {
-      "src": "/sw.js",
-      "dest": "/sw.js"
+      "src": "/(style\\.css|script\\.js|manifest\\.json|sw\\.js|favicon\\.ico)",
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",
