@@ -6,10 +6,15 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
+// Disable error display to prevent corrupting JSON output
+ini_set('display_errors', 0);
+error_reporting(0);
+
 $action = $_GET['action'] ?? '';
 
 // Support for Vercel Serverless (Read-only FS except /tmp)
-if (isset($_SERVER['VERCEL'])) {
+// Vercel usually sets VERCEL or VERCEL_REGION
+if (isset($_SERVER['VERCEL']) || isset($_ENV['VERCEL']) || getenv('VERCEL')) {
     $cacheDir = '/tmp/cache';
 } else {
     $cacheDir = __DIR__ . '/../cache';
