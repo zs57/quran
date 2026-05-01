@@ -91,7 +91,7 @@ async function fetchSurahs() {
       return;
     }
 
-    const res = await fetch('api.php?action=surahs');
+    const res = await fetch('/api?action=surahs');
     const data = await res.json();
     allSurahs = data.data;
     
@@ -154,8 +154,8 @@ async function openSurah(id, name) {
   
   try {
     // Parallel Fetching for EXTREME SPEED
-    const textPromise = fetch(`api.php?action=surah_text&id=${id}`).then(r => r.json());
-    const tafsirPromise = fetch(`api.php?action=tafsir&id=${id}&type=${currentTafsirId}`).then(r => r.json());
+    const textPromise = fetch(`/api?action=surah_text&id=${id}`).then(r => r.json());
+    const tafsirPromise = fetch(`/api?action=tafsir&id=${id}&type=${currentTafsirId}`).then(r => r.json());
     
     const [textData, tafsirData] = await Promise.all([textPromise, tafsirPromise]);
     
@@ -176,7 +176,7 @@ async function changeTafsirSource() {
     const container = document.getElementById('surah-reader-container');
     container.style.opacity = 0.5;
     try {
-      const res = await fetch(`api.php?action=tafsir&id=${currentSurahId}&type=${currentTafsirId}`);
+      const res = await fetch(`/api?action=tafsir&id=${currentSurahId}&type=${currentTafsirId}`);
       const data = await res.json();
       currentTafsirData = data.data.ayahs;
       renderReader();
@@ -272,7 +272,7 @@ async function fetchReciters() {
       return;
     }
 
-    const res = await fetch('api.php?action=reciters');
+    const res = await fetch('/api?action=reciters');
     const data = await res.json();
     allReciters = data.reciters;
     localStorage.setItem('recitersList', JSON.stringify(allReciters));
@@ -512,7 +512,7 @@ function downloadCurrentSurah() {
   const filename = `${surahName}_${reciterName}.mp3`.replace(/\s+/g, '_');
   
   // Use proxy to force download
-  const downloadUrl = `api.php?action=download_file&url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`;
+  const downloadUrl = `/api?action=download_file&url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`;
   window.location.href = downloadUrl;
   
   showToast("جاري بدء تحميل السورة... يرجى الانتظار");
@@ -527,7 +527,7 @@ function downloadFullQuran() {
   const moshaf = reciter.moshaf[mIdx];
   const server = moshaf.server;
   
-  const url = `api.php?action=download_full_quran_script&server=${encodeURIComponent(server)}&name=${encodeURIComponent(reciter.name)}`;
+  const url = `/api?action=download_full_quran_script&server=${encodeURIComponent(server)}&name=${encodeURIComponent(reciter.name)}`;
   window.open(url, '_blank');
   showToast("تم توليد سكربت التحميل بنجاح!");
 }
@@ -535,7 +535,7 @@ function downloadFullQuran() {
 // ----------------- RADIO FEATURE -----------------
 async function fetchRadios() {
   try {
-    const res = await fetch('api.php?action=radios');
+    const res = await fetch('/api?action=radios');
     const data = await res.json();
     const radios = data.radios;
     renderRadios(radios);
@@ -670,7 +670,7 @@ async function downloadFullZIP() {
   
   for (const sNum of surahList) {
     const num = sNum.padStart(3, '0');
-    const url = `api.php?action=download_file&url=${encodeURIComponent(server + num + '.mp3')}`;
+    const url = `/api?action=download_file&url=${encodeURIComponent(server + num + '.mp3')}`;
     
     try {
       const response = await fetch(url);

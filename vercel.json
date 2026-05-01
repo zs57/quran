@@ -1,10 +1,15 @@
 {
   "functions": {
-    "api.php": {
-      "runtime": "vercel-php@0.9.0"
-    },
-    "index.php": {
+    "api/*.php": {
       "runtime": "vercel-php@0.9.0"
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/api", "destination": "/api/api.php" },
+    { "source": "/api/:path*", "destination": "/api/api.php" },
+    { "source": "/style.css", "destination": "/style.css" },
+    { "source": "/script.js", "destination": "/script.js" },
+    { "source": "/(manifest\\.json|sw\\.js|favicon\\.ico)", "destination": "/$1" },
+    { "source": "/(.*)", "destination": "/api/main.php" }
+  ]
 }
