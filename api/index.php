@@ -3,8 +3,14 @@
  * Noor Al-Quloob API - Serverless Entry
  */
 
+require_once __DIR__ . '/firewall.php';
+
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
+
+// 🔥 EXTREME PERFORMANCE: Vercel Edge Caching (Distributes Load Globally)
+// Cache for 30 days, revalidate in background after 1 day
+header('Cache-Control: public, s-maxage=2592000, stale-while-revalidate=86400');
 
 // Disable error display to prevent corrupting JSON output
 ini_set('display_errors', 0);

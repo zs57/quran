@@ -206,34 +206,76 @@ function toggleTheme() {
 
 function renderReader() {
   const container = document.getElementById('surah-reader-container');
-  let html = '<div class="surah-text">';
+  container.innerHTML = '';
+  
+  const textContainer = document.createElement('div');
+  textContainer.className = 'surah-text';
   
   if (currentSurahId !== 9 && currentSurahId !== 1) {
-    html += '<div style="text-align:center; font-size: 36px; margin-bottom: 2rem; color:var(--accent-red);">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>';
+    const bism = document.createElement('div');
+    bism.style.cssText = 'text-align:center; font-size: 36px; margin-bottom: 2rem; color:var(--accent-red);';
+    bism.innerText = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+    textContainer.appendChild(bism);
   }
 
-  if (activeMode === 'read') {
-    currentSurahData.forEach(ayah => {
+  container.appendChild(textContainer);
+
+  // 🚀 Chunked Rendering for EXTREME PERFORMANCE on weak devices
+  // This completely eliminates freezing/hanging when rendering large surahs
+  const CHUNK_SIZE = 20; 
+  let currentIndex = 0;
+
+  function renderChunk() {
+    let fragment = document.createDocumentFragment();
+    let end = Math.min(currentIndex + CHUNK_SIZE, currentSurahData.length);
+    
+    for (let i = currentIndex; i < end; i++) {
+      const ayah = currentSurahData[i];
       let text = ayah.text;
-      if (currentSurahId !== 1 && ayah.numberInSurah === 1) text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
-      html += `<div class="ayah" onclick="copyAyah('${text.replace(/'/g, "\\'")}')">${text} <span class="ayah-num">${ayah.numberInSurah}</span></div> `;
-    });
-  } else {
-    currentSurahData.forEach((ayah, index) => {
-      let text = ayah.text;
-      if (currentSurahId !== 1 && ayah.numberInSurah === 1) text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
-      const tafsir = currentTafsirData ? currentTafsirData[index].text : 'جاري التحميل...';
-      html += `
-        <div class="ayah-wrapper">
+      if (currentSurahId !== 1 && ayah.numberInSurah === 1) {
+        text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
+      }
+      
+      const el = document.createElement('div');
+      
+      if (activeMode === 'read') {
+        el.className = 'ayah';
+        el.style.display = 'inline';
+        el.onclick = () => copyAyah(text.replace(/'/g, "\\'"));
+        el.innerHTML = `${text} <span class="ayah-num">${ayah.numberInSurah}</span> `;
+      } else {
+        el.className = 'ayah-wrapper';
+        const tafsir = currentTafsirData ? currentTafsirData[i].text : 'جاري التحميل...';
+        el.innerHTML = `
           <div class="ayah" style="color:var(--accent-green);" onclick="copyAyah('${text.replace(/'/g, "\\'")}')">${text} <span class="ayah-num">${ayah.numberInSurah}</span></div>
           <div class="tafsir-block"><strong>التفسير:</strong> ${tafsir}</div>
-        </div>
-      `;
+        `;
+      }
+      fragment.appendChild(el);
+      
+      if (activeMode === 'read' && i < end - 1) {
+        fragment.appendChild(document.createTextNode(' '));
+      }
+    }
+    
+    textContainer.appendChild(fragment);
+    
+    // Apply font size dynamically
+    const newTextContainers = textContainer.querySelectorAll('.surah-text, .ayah, .tafsir-block');
+    newTextContainers.forEach(el => {
+      el.style.fontSize = currentFontSize + 'px';
     });
+    
+    currentIndex = end;
+    
+    if (currentIndex < currentSurahData.length) {
+      // Free the main thread before rendering the next chunk!
+      requestAnimationFrame(renderChunk);
+    }
   }
-  
-  html += '</div>';
-  container.innerHTML = html;
+
+  // Start rendering sequence
+  requestAnimationFrame(renderChunk);
 }
 
 // Last Read feature
